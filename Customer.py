@@ -28,7 +28,7 @@ class Customer:
         return f"Customer(ID={self.ID}, name={self.name}, bill={self.bill}, phone={self.phone}, email={self.email}, posFile={self.posFile})"
 
     def customerinPos(self, pos):
-        return self.posFile == pos
+        return str(self.posFile) == str(pos)
 
     def setCustomer(self, name, bill, phone, email):
         self.name = name

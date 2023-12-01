@@ -38,7 +38,6 @@ def addCustomer(l_Customer, t_CustomerInterfaz, oCustomer, fCustomer):
     pass
 
 
-
 def delCustomer(l_Customer, t_CustomerInterfaz, posinTable):
     if 0 <= posinTable < len(t_CustomerInterfaz):
         # Hacer algo con cdel si es necesario
@@ -48,17 +47,12 @@ def delCustomer(l_Customer, t_CustomerInterfaz, posinTable):
     pass
 
 
-
 def updateCustomer(l_Customer, t_row_CustomerInterfaz, posinFile):
-    cdel = None
-    for o in l_Customer:
-        if (o.customerinPos(posinFile)):
-            cdel = o
-            break
-    if (cdel is not None):
+    cdel = next((customer for customer in l_Customer if customer.customerinPos(posinFile)), None)
+    if cdel is not None:
         cdel.setCustomer(t_row_CustomerInterfaz[1], t_row_CustomerInterfaz[2], t_row_CustomerInterfaz[3],
                          t_row_CustomerInterfaz[4])
-        # modifyCustomer(fCustomer, cdel)
+        modifyCustomer(fCustomer, cdel.posFile, cdel)
     pass
 
 
