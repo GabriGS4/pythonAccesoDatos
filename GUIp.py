@@ -73,7 +73,7 @@ def sort_table(table, cols):
 
 def interfaz():
     font1, font2 = ('Arial', 14), ('Arial', 16)
-    sg.theme('DarkGrey4')
+    sg.theme('DarkGrey9')
     sg.set_options(font=font1)
     table_data = []
     rowToUpdate = []
@@ -93,7 +93,7 @@ def interfaz():
                            enable_click_events=True,
                            vertical_scroll_only=False, select_mode=sg.TABLE_SELECT_MODE_BROWSE,
                            expand_x=True, bind_return_key=True, key='-Table-')],
-                 [sg.Button('Purge'), sg.Push(), sg.Button('Sort File')],
+                 [sg.Push(), sg.Button('Sort File')],
              ]
     sg.theme('Reddit')
     window = sg.Window('Customer Management with Files', layout, finalize=True)
