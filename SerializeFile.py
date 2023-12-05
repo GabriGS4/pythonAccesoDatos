@@ -46,6 +46,18 @@ def deleteCustomer(json_filename, posFile):
         json.dump(customer_data, json_file)
     pass
 
+def purgue_data(json_filename):
+    # Abrir el archivo JSON y cargar los datos existentes
+    with open(json_filename, 'r') as json_file:
+        customer_data = json.load(json_file)
+
+    # Crear una nueva lista sin los clientes cuyo campo "erased" sea igual a "1"
+    new_customer_data = [customer for customer in customer_data if customer.get('erased') != "1"]
+
+    # Escribir la nueva lista al archivo JSON
+    with open(json_filename, 'w') as json_file:
+        json.dump(new_customer_data, json_file)
+    pass
 
 def modifyCustomer(json_filename, posFile, new_customer):
     # Abrir el archivo JSON y cargar los datos existentes

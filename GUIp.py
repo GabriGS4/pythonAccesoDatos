@@ -1,13 +1,3 @@
-# https://apuntes.de/python/expresiones-regulares-y-busqueda-de-patrones-en-python-poder-y-flexibilidad/#gsc.tab=0
-# https://rico-schmidt.name/pymotw-3/pickle/index.html
-# https://stackoverflow.com/questions/55809976/seek-on-pickled-data
-# https://www.reddit.com/r/learnpython/comments/pgfj63/sorting_a_table_with_pysimplegui/
-# https://www.geeksforgeeks.org/python-sorted-function/
-# https://github.com/PySimpleGUI/PySimpleGUI/blob/master/DemoPrograms/Demo_Table_Element_Header_or_Cell_Clicks.py
-# https://github.com/PySimpleGUI/PySimpleGUI/issues/5646
-# https://docs.python.org/3/howto/sorting.html
-
-
 from SerializeFile import *
 from Customer import *
 import PySimpleGUI as sg
@@ -72,8 +62,8 @@ def sort_table(table, cols):
 
 
 def interfaz():
-    font1, font2 = ('Arial', 14), ('Arial', 16)
-    sg.theme('DarkGrey9')
+    font1, font2 = ('Roboto', 14), ('Roboto', 16)
+    sg.theme('DarkGrey6')
     sg.set_options(font=font1)
     table_data = []
     rowToUpdate = []
@@ -83,17 +73,23 @@ def interfaz():
             table_data.append([o.ID, o.name, o.bill, o.email, o.phone, o.posFile])
 
     layout = [
-                 [sg.Push(), sg.Text('Game CRUD'), sg.Push()]] + [
-                 [sg.Text(text), sg.Push(), sg.Input(key=key)] for key, text in Customer.fields.items()] + [
-                 [sg.Push()] +
-                 [sg.Button(button) for button in ('Add', 'Delete', 'Modify', 'Clear')] +
-                 [sg.Push()],
+                 [sg.Push(), sg.Text('Práctica Python'), sg.Push()]] + [
+                 [sg.Text(text), [sg.Push()], sg.Push(), sg.Input(key=key)] for key, text in
+                 Customer.fields.items()] + [
+
+                 [
+                     sg.Button('Add', size=(10, 1), button_color=('white', 'green'), border_width=4, pad=(15, 15)),
+                     sg.Button('Delete', size=(10, 1), button_color=('white', 'red'), border_width=4, pad=(15, 15)),
+                     sg.Button('Modify', size=(10, 1), button_color=('white', 'orange'), border_width=4, pad=(15, 15)),
+                     sg.Button('Clean', size=(10, 1), button_color=('white', 'blue'), border_width=4, pad=(15, 15))
+                 ] +
+
                  [sg.Table(values=table_data, headings=Customer.headings, max_col_width=50, num_rows=10,
                            display_row_numbers=False, justification='center', enable_events=True,
                            enable_click_events=True,
                            vertical_scroll_only=False, select_mode=sg.TABLE_SELECT_MODE_BROWSE,
                            expand_x=True, bind_return_key=True, key='-Table-')],
-                 [sg.Push(), sg.Button('Sort File')],
+                 [sg.Button('Purge'), sg.Push(), sg.Button('Sort File')],
              ]
     sg.theme('Reddit')
     window = sg.Window('Customer Management with Files', layout, finalize=True)
@@ -131,7 +127,7 @@ def interfaz():
                 window['-Email-'].update(str(table_data[row][4]))
                 window['-PosFile-'].update(str(table_data[row][5]))
             pass
-        if event == 'Clear':
+        if event == 'Clean':
             window['-ID-'].update(disabled=False)
             window['-ID-'].update('')
             window['-Name-'].update('')
@@ -155,6 +151,17 @@ def interfaz():
                 updateCustomer(lCustomer, rowToUpdate, int(values['-PosFile-']))
                 window['-Table-'].update(table_data)
                 window['-ID-'].update(disabled=False)
+                sg.popup("Customer with ID: " + values['-ID-'] + " has been modified", title="Alert")
+
+        if event == 'Purge':
+            # Lógica para purgar los datos del json
+            purgue_data(fCustomer)
+
+            # Habilitar el elemento '-ID-' si es necesario
+            window['-ID-'].update(disabled=False)
+
+            sg.popup("Deleted customers have been purged.", title="Alert")
+
         if isinstance(event, tuple):
             # TABLE CLICKED Event has value in format ('-TABLE=', '+CLICKED+', (row,col))
             # You can also call Table.get_last_clicked_position to get the cell clicked
