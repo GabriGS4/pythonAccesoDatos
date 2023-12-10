@@ -89,7 +89,7 @@ def interfaz():
                            enable_click_events=True,
                            vertical_scroll_only=False, select_mode=sg.TABLE_SELECT_MODE_BROWSE,
                            expand_x=True, bind_return_key=True, key='-Table-')],
-                 [sg.Button('Purge'), sg.Push(), sg.Button('Sort File')],
+                 [sg.Button('Purge'), sg.Push()],
              ]
     sg.theme('Reddit')
     window = sg.Window('Customer Management with Files', layout, finalize=True)
@@ -152,7 +152,7 @@ def interfaz():
                 window['-Table-'].update(table_data)
                 window['-ID-'].update(disabled=False)
                 sg.popup("Customer with ID: " + values['-ID-'] + " has been modified", title="Alert")
-
+            pass
         if event == 'Purge':
             # Lógica para purgar los datos del json
             purgue_data(fCustomer)
@@ -161,16 +161,7 @@ def interfaz():
             window['-ID-'].update(disabled=False)
 
             sg.popup("Deleted customers have been purged.", title="Alert")
-
-        if isinstance(event, tuple):
-            # TABLE CLICKED Event has value in format ('-TABLE=', '+CLICKED+', (row,col))
-            # You can also call Table.get_last_clicked_position to get the cell clicked
-            if event[0] == '-Table-':
-                if event[2][0] == -1:  # Header was clicked
-                    col_num_clicked = event[2][1]
-                    table_data = sort_table(table_data, (col_num_clicked, 0))
-                    window['-Table-'].update(table_data)
-
+            pass
     window.close()
 
 

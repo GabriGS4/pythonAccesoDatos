@@ -7,5 +7,14 @@
     "phone": "555-233322",
     "pos": "0",
     "erased": "0"
+  },
+  {
+    "Id": "4444",
+    "Name": "pepe",
+    "Bill Address": "C su casa",
+    "email": "pepe@pepe.es",
+    "phone": "444-5432122",
+    "pos": "1",
+    "erased": "0"
   }
 ]
